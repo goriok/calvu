@@ -11,11 +11,8 @@ var bumpCmd = &cobra.Command{
 	Short: "bump",
 	Run: func(cmd *cobra.Command, args []string) {
 	  now := time.Now().UTC()
-
 	  formattedTime := now.Format("06.01.02150405")
-
 	  fmt.Println(formattedTime)
-
 	},
 }
 
