@@ -1,0 +1,26 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Output of the go coverage tool
+*.out
+
+# Go workspace file
+go.work
+go.work.sum
+
+# GoLand project files
+.idea/
+
+# Dependency directories
+vendor/
+
+.DS_Store
+
+tmp/
+
+bin/
+
