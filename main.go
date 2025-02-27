@@ -1,9 +1,9 @@
-// cli tool for semantic versioning
+// cli tool for calendar versioning utc
 package main
 
 import (
+	"calvu/cmd"
 	"github.com/sirupsen/logrus"
-	"svcli/cmd"
 )
 
 func main() {
