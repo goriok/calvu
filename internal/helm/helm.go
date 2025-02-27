@@ -13,7 +13,7 @@ type Chart struct {
 
 const ChartFile = "Chart.yaml"
 
-func Bump(version string) (*Chart, error){
+func SetVersion(version string) (*Chart, error){
 	data, err := os.ReadFile(ChartFile)
 	if err != nil {
 		return nil, err

@@ -6,6 +6,7 @@ import (
   "time"
   "bytes"
   "strings"
+  "strconv"
 )
 
 func HeadDate() (*time.Time, error){
@@ -33,13 +34,41 @@ func HeadDate() (*time.Time, error){
   return &headTime, nil
 }
 
-func Bump(tag string) error {
+func LatestPatch(major, minor int) int {
+  filter := fmt.Sprintf("refs/tags/%d.%d.*", major, minor)
+  cmd := exec.Command("git", "ls-remote", "--tags", "origin", filter)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	if err := cmd.Run(); err != nil {
+		return 0
+	}
+
+	tags := strings.Split(strings.TrimSpace(out.String()), "\n")
+	if len(tags) == 0 {
+		return 0
+	}
+
+	var maxPatch int
+	for _, tag := range tags {
+		parts := strings.Split(tag, ".")
+		if len(parts) < 3 {
+			continue
+		}
+		patch, err := strconv.Atoi(parts[2])
+		if err == nil && patch > maxPatch {
+			maxPatch = patch
+		}
+	}
+
+	return maxPatch
+}
+
+func PushTag(tag string) error {
   err := validate()
   if err != nil {
     return err
   }
-
-	cmd := exec.Command("git", "tag", "-a", tag, "-m", "Release "+tag)
+  cmd := exec.Command("git", "tag", "-a", tag, "-m", "Release "+tag)
 
 	var out bytes.Buffer
 	cmd.Stdout = &out

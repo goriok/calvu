@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-  "calvu/internal/version"
+  "calvu/internal/cversion"
   "calvu/internal/helm"
   "calvu/internal/git"
   "fmt"
@@ -23,14 +23,13 @@ var helmBumpCmd = &cobra.Command{
 	Use:   "bump",
 	Short: "bump",
 	Run: func(cmd *cobra.Command, args []string) {
-    headTime, err := git.HeadDate()
+    v, err := cversion.FromGit()
     if err != nil {
-      fmt.Println(err)
+      fmt.Print(err)
       return
     }
-
-    v := version.FromTime(*headTime)
-    chart, err := helm.Bump(v)
+    v.Bump()
+    chart, err := helm.SetVersion(v.Value())
     if err != nil {
       fmt.Print(err)
       return
@@ -57,7 +56,7 @@ var helmBumpCmd = &cobra.Command{
       return
     }
 
-    err = git.Bump(v)
+    err = git.PushTag(v.Value())
     if err != nil {
       fmt.Print(err)
       return
