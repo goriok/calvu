@@ -68,15 +68,6 @@ func Commit(filePath, message string) error {
 		return err
 	}
 
-  stageClean, err := isStageClean()
-  if err != nil {
-    return err
-  }
-
-  if !stageClean {
-    return fmt.Errorf("commit action requires a clean git stage")
-  }
-
 	cmdAdd := exec.Command("git", "add", filePath)
 	var out bytes.Buffer
 	cmdAdd.Stdout = &out
