@@ -56,6 +56,12 @@ var helmBumpCmd = &cobra.Command{
       fmt.Print(err)
       return
     }
+
+    err = git.Bump(v)
+    if err != nil {
+      fmt.Print(err)
+      return
+    }
 	},
 }
 
