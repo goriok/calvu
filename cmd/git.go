@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-  "calvu/internal/cversion"
+  "calvu/internal/repos"
   "calvu/internal/git"
+  "calvu/internal/calver"
   "fmt"
 )
 
@@ -19,19 +20,20 @@ var gitBumpCmd = &cobra.Command{
 	Use:   "bump",
 	Short: "bump",
 	Run: func(cmd *cobra.Command, args []string) {
-    v, err := cversion.FromGit()
-    if err != nil {
-      fmt.Print(err)
-      return
-    }
-    v.Bump()
-    err = git.PushTag(v.Value())
+    cver, err := repos.GitRefs.CurrentVersion()
     if err != nil {
       fmt.Print(err)
       return
     }
 
-    fmt.Printf("%s tag pushed\n", v.Value())
+    v := calver.Bump(*cver)
+    err = git.PushTag(v.String())
+    if err != nil {
+      fmt.Print(err)
+      return
+    }
+
+    fmt.Printf("%s tag pushed\n", v)
 	},
 }
 
