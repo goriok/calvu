@@ -4,16 +4,17 @@ import (
   "fmt"
   "os"
   "gopkg.in/yaml.v3"
+  "calvu/internal/models"
 )
 const ChartFile = "Chart.yaml"
 
-func SetVersion(version string) (*Chart, error){
+func SetVersion(version string) (*models.Chart, error){
 	data, err := os.ReadFile(ChartFile)
 	if err != nil {
 		return nil, err
 	}
 
-	var chart Chart
+	var chart models.Chart
 	err = yaml.Unmarshal(data, &chart)
 	if err != nil {
 		return nil, err
