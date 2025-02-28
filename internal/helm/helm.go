@@ -5,12 +5,6 @@ import (
   "os"
   "gopkg.in/yaml.v3"
 )
-type Chart struct {
-	APIVersion string `yaml:"apiVersion"`
-	Name       string `yaml:"name"`
-	Version    string `yaml:"version"`
-}
-
 const ChartFile = "Chart.yaml"
 
 func SetVersion(version string) (*Chart, error){

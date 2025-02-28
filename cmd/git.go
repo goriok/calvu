@@ -33,7 +33,7 @@ var gitBumpCmd = &cobra.Command{
       return
     }
 
-    fmt.Printf("%s tag pushed\n", v)
+    fmt.Printf("%s tag pushed\n", v.String())
 	},
 }
 
